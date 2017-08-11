@@ -17,9 +17,9 @@ function tripleSteps(n, steps) {
 	}
 	return stepsPerm;
 }
-
-let output = tripleSteps(5, steps);
-console.log(output)
+//take 10.4 seconds
+// let output = tripleSteps(30, steps);
+// console.log(output)
 
 
 /*
@@ -32,7 +32,30 @@ console.log(output)
    3 2 1
   /|\
  2 1 0
-
-
-
 */
+//OPTIMIZED SOLUTION
+var steps = [1, 2, 3]
+function tripleStepsMemo(n, steps, memo) {
+	if(memo[n]) {
+		return memo[n]
+	}
+	if(n < 0) {
+		return 0;
+	}
+
+	if(n === 0) {
+		return 1
+	}
+	let stepsPerm = 0;
+	for(let i = 0; i < steps.length; i++) {
+		let currStep = tripleStepsMemo(n - steps[i], steps, memo)
+		if(currStep) {
+			stepsPerm += currStep;
+		}
+	}
+	memo[n] = stepsPerm;
+	return memo[n]
+}
+//takes .1 second
+let output2 = tripleStepsMemo(30, steps, {});
+console.log(output2)
